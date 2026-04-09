@@ -1,0 +1,6 @@
+__pycache__/
+*.pkl
+*.pyc
+data/raw/
+.env
+data/IMDB Dataset.csv
