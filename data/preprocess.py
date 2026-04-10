@@ -12,14 +12,16 @@ import re
 from nltk.corpus import stopwords
 from sklearn.model_selection import train_test_split
 
-stop_words = set(stopwords.words('english'))
+stop_words = set(stopwords.words('english')) #removes auxilary words
 
+#reads and loads dataset from csv
 def load_data():
     df = pd.read_csv("data/IMDB Dataset.csv")
     X = df['review']
     y = df['sentiment'].map({'positive': 1, 'negative': 0})
     return X, y
 
+# covert text into lower case,remove space
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'<.*?>', '', text)
@@ -29,12 +31,14 @@ def clean_text(text):
     text = ' '.join(words)
     return text
 
+#append text in cleaned array
 def clean_dataset(texts):
     cleaned = []
     for text in texts:
         cleaned.append(clean_text(text))
     return cleaned
 
+# 80-20 mei divide krta hai
 def split_data(texts, labels, test_size=0.2, random_state=42):
     X_train, X_test, y_train, y_test = train_test_split(
         texts,
@@ -46,11 +50,13 @@ def split_data(texts, labels, test_size=0.2, random_state=42):
 
     return X_train, X_test, y_train, y_test
 
+
 def vectorize(X_train, X_test):
     vectorizer = TfidfVectorizer(max_features=5000)
     X_train_tfidf = vectorizer.fit_transform(X_train)
     X_test_tfidf = vectorizer.transform(X_test)
     return X_train_tfidf, X_test_tfidf, vectorizer
+
 
 def save_artifacts(vectorizer,X_train,X_test,y_train,y_test):
     joblib.dump(vectorizer,"data/vectorizer.pkl")
@@ -77,5 +83,6 @@ def main():
 
     print("Done! All artifacts saved to data/")
 
+#so that we can include above functions in any othe file
 if __name__ == "__main__":
     main()
