@@ -1,11 +1,13 @@
 import joblib
 from data.preprocess import clean_text
 
+#loads the model
 def load_model():
     model = joblib.load("model/model.pkl")
     vectorizer = joblib.load("data/vectorizer.pkl")
     return model,vectorizer
 
+#takes input, cleans it & predicts the sentment
 def predict(review, model, vectorizer):
     cleaned_review = clean_text(review)
     vectorized_review = vectorizer.transform([cleaned_review])
