@@ -16,3 +16,14 @@ def predict(review, model, vectorizer):
     else:
         return "Negative 😞"
     
+def main():
+    model, vectorizer = load_model()
+    review = ""
+    while review != "quit":
+        review = input("Enter a review (or 'quit' to exit): ")
+        if review != "quit":
+            result = predict(review, model, vectorizer)
+            print(result)
+
+if __name__ == "__main__":
+    main()
